@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PatentRadar Web
+
+The web client for [PatentRadar](https://github.com/riorio3/PatentRadar) — browse, search, and analyze government patents for commercialization, right from your browser.
+
+## Features
+
+- **Patent Discovery** — Browse 600+ patents across 15 categories, search by keyword
+- **AI Problem Solver** — Describe a problem in plain English, get matched patents with relevance scores
+- **Business Analysis** — AI-powered commercialization reports (markets, competitors, roadmap, costs)
+- **Saved Patents** — Bookmark patents for later review
+- **Responsive UI** — Dark-themed interface built for desktop and mobile
+
+## Tech Stack
+
+- **Next.js 16** — App Router, API routes
+- **React 19**
+- **Tailwind CSS 4**
+- **TanStack React Query** — Data fetching and caching
+- **Zustand** — Client state management
+- **Claude AI** — Anthropic's Claude for patent analysis
+- **NASA T2 Portal API** — Patent data source
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API Key
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+AI features require a Claude API key from [Anthropic](https://console.anthropic.com/). Add it in the Settings page.
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── page.tsx              # Discovery / browse patents
+│   ├── patent/[caseNumber]/  # Patent detail page
+│   ├── solve/                # AI Problem Solver
+│   ├── saved/                # Saved patents
+│   ├── settings/             # Settings (API key)
+│   └── api/                  # Backend routes (nasa, anthropic)
+├── components/               # Shared UI components
+├── lib/
+│   ├── api/                  # API client functions
+│   ├── stores/               # Zustand stores
+│   └── utils/                # Categories, HTML parser
+└── types/                    # TypeScript types
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Related
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [PatentRadar iOS](https://github.com/riorio3/PatentRadar) — the native iOS app
 
-## Deploy on Vercel
+## Data Source
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Patent data comes from [NASA's Technology Transfer Portal](https://technology.nasa.gov/). This app is not affiliated with or endorsed by NASA.
