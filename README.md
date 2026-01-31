@@ -20,14 +20,9 @@ The web client for [PatentRadar](https://github.com/riorio3/PatentRadar) — bro
 - **Claude AI** — Anthropic's Claude for patent analysis
 - **NASA T2 Portal API** — Patent data source
 
-## Getting Started
+## Try It
 
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
+Live at **[patentradar.app](https://patentradar.app/)**
 
 ## API Key
 
