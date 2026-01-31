@@ -6,6 +6,7 @@ import { browsePatents, searchPatents } from '@/lib/api/nasa';
 import { CATEGORIES } from '@/lib/utils/categories';
 import { Patent, CategoryConfig } from '@/types';
 import Link from 'next/link';
+import { SatelliteIcon, SparklesIcon, WarningIcon, SearchIcon, GridIcon } from '@/components/icons';
 
 function PatentCard({ patent }: { patent: Patent }) {
   return (
@@ -24,7 +25,7 @@ function PatentCard({ patent }: { patent: Patent }) {
         </div>
       ) : (
         <div className="aspect-[16/10] bg-gradient-to-br from-blue-900/40 to-purple-900/40 flex items-center justify-center">
-          <span className="text-4xl opacity-60">🛰️</span>
+          <span className="opacity-60"><SatelliteIcon size={40} /></span>
         </div>
       )}
       <div className="p-3">
@@ -51,7 +52,7 @@ function CategoryGrid({ onSelect }: { onSelect: (cat: CategoryConfig) => void })
           className="flex flex-col items-center gap-1.5 p-3 rounded-xl transition-colors hover:bg-gray-800"
           style={{ backgroundColor: `${cat.color}15` }}
         >
-          <span className="text-2xl">{cat.icon}</span>
+          <span className="text-sm font-bold" style={{ color: cat.color }}>{cat.icon}</span>
           <span className="text-xs font-medium" style={{ color: cat.color }}>{cat.shortName}</span>
         </button>
       ))}
@@ -154,7 +155,7 @@ export default function DiscoveryPage() {
               onClick={goHome}
               className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 shrink-0"
             >
-              ⊞
+              <GridIcon size={16} />
             </button>
           )}
           <div className="relative flex-1">
@@ -165,7 +166,7 @@ export default function DiscoveryPage() {
               placeholder="Search patents..."
               className="w-full bg-gray-900 border border-gray-700 rounded-lg pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors"
             />
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"><SearchIcon size={16} /></span>
           </div>
           <button
             type="submit"
@@ -187,19 +188,19 @@ export default function DiscoveryPage() {
       {!hasSearched ? (
         // Welcome view
         <div className="text-center py-12">
-          <div className="text-5xl mb-4">✨</div>
+          <div className="mb-4 flex justify-center"><SparklesIcon size={40} className="text-blue-400" /></div>
           <h1 className="text-2xl font-bold mb-2">Explore Patents</h1>
           <p className="text-gray-400 mb-8">Search 600+ government patents available for licensing</p>
           <CategoryGrid onSelect={handleCategorySelect} />
         </div>
       ) : isLoading ? (
         <div className="flex flex-col items-center py-20">
-          <div className="animate-spin text-3xl mb-4">🛰️</div>
+          <div className="animate-spin mb-4"><SatelliteIcon size={28} /></div>
           <p className="text-gray-400">Searching patents...</p>
         </div>
       ) : error ? (
         <div className="flex flex-col items-center py-20 text-center">
-          <div className="text-4xl mb-4">⚠️</div>
+          <div className="mb-4"><WarningIcon size={36} /></div>
           <p className="text-gray-400">{String(error)}</p>
           <button
             onClick={() => hasSearched && browseQuery.refetch()}
@@ -210,7 +211,7 @@ export default function DiscoveryPage() {
         </div>
       ) : patents && patents.length === 0 ? (
         <div className="flex flex-col items-center py-20 text-center">
-          <div className="text-4xl mb-4">🔍</div>
+          <div className="mb-4"><SearchIcon size={36} /></div>
           <h2 className="text-lg font-semibold mb-1">No patents found</h2>
           <p className="text-gray-400 text-sm">Try a different search term or category</p>
         </div>

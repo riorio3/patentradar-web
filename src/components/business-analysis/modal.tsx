@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { BusinessAnalysis, Patent } from '@/types';
+import { LightbulbIcon, ChartIcon, UsersIcon, MapIcon, DollarIcon, TargetIcon, HammerIcon, FactoryIcon, MegaphoneIcon, StarIcon } from '@/components/icons';
 
 const TABS = [
-  { key: 'ideas', label: 'Ideas', icon: '💡' },
-  { key: 'markets', label: 'Markets', icon: '📊' },
-  { key: 'competition', label: 'Competition', icon: '👥' },
-  { key: 'roadmap', label: 'Roadmap', icon: '🗺️' },
-  { key: 'costs', label: 'Costs', icon: '💰' },
+  { key: 'ideas', label: 'Ideas', icon: <LightbulbIcon size={16} /> },
+  { key: 'markets', label: 'Markets', icon: <ChartIcon size={16} /> },
+  { key: 'competition', label: 'Competition', icon: <UsersIcon size={16} /> },
+  { key: 'roadmap', label: 'Roadmap', icon: <MapIcon size={16} /> },
+  { key: 'costs', label: 'Costs', icon: <DollarIcon size={16} /> },
 ];
 
 export function BusinessAnalysisModal({
@@ -44,7 +45,7 @@ export function BusinessAnalysisModal({
                 tab === t.key ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
               }`}
             >
-              <span>{t.icon}</span>
+              {t.icon}
               <span>{t.label}</span>
             </button>
           ))}
@@ -76,14 +77,14 @@ export function BusinessAnalysisModal({
               <SectionHeader title="Target Markets" subtitle="Industries and customer segments" />
               {analysis.targetMarkets.map((m, i) => (
                 <div key={i} className="flex items-center gap-3 p-4 bg-gray-800 rounded-xl">
-                  <span className="text-blue-400">🎯</span>
+                  <span className="text-blue-400"><TargetIcon size={18} /></span>
                   <span>{m}</span>
                 </div>
               ))}
               <h3 className="font-semibold mt-4">Revenue Models</h3>
               {analysis.revenueModels.map((m, i) => (
                 <div key={i} className="flex items-center gap-3 p-4 bg-green-900/10 border border-green-900/20 rounded-xl">
-                  <span className="text-green-400">💰</span>
+                  <span className="text-green-400"><DollarIcon size={18} /></span>
                   <span>{m}</span>
                 </div>
               ))}
@@ -129,17 +130,17 @@ export function BusinessAnalysisModal({
           {tab === 'costs' && (
             <>
               <SectionHeader title="Cost Estimates" subtitle="Budget ranges for commercialization" />
-              <CostRow icon="🔨" label="Prototyping" value={analysis.costEstimates.prototyping} />
-              <CostRow icon="🏭" label="Manufacturing" value={analysis.costEstimates.manufacturing} />
-              <CostRow icon="📣" label="Marketing" value={analysis.costEstimates.marketing} />
+              <CostRow icon={<HammerIcon size={18} />} label="Prototyping" value={analysis.costEstimates.prototyping} />
+              <CostRow icon={<FactoryIcon size={18} />} label="Manufacturing" value={analysis.costEstimates.manufacturing} />
+              <CostRow icon={<MegaphoneIcon size={18} />} label="Marketing" value={analysis.costEstimates.marketing} />
               <div className="flex items-center justify-between p-4 bg-blue-900/20 border border-blue-800/30 rounded-xl">
                 <span className="font-semibold">Estimated Total</span>
                 <span className="text-xl font-bold text-blue-400">{analysis.costEstimates.total}</span>
               </div>
               <div className="p-4 bg-yellow-900/10 border border-yellow-800/20 rounded-xl">
-                <p className="font-semibold flex items-center gap-2 mb-1">⭐ Startup NASA Program</p>
+                <p className="font-semibold flex items-center gap-2 mb-1"><StarIcon size={16} className="text-yellow-400" /> Startup NASA Program</p>
                 <p className="text-sm text-gray-400 mb-2">Eligible startups can license this technology for FREE for up to 3 years, significantly reducing initial costs.</p>
-                <a href="https://technology.nasa.gov/license" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:underline">Learn More →</a>
+                <a href="https://technology.nasa.gov/license" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:underline">Learn More &rarr;</a>
               </div>
             </>
           )}
@@ -158,11 +159,11 @@ function SectionHeader({ title, subtitle }: { title: string; subtitle: string })
   );
 }
 
-function CostRow({ icon, label, value }: { icon: string; label: string; value: string }) {
+function CostRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-center justify-between p-4 bg-gray-800 rounded-xl">
       <span className="flex items-center gap-2">
-        <span>{icon}</span>
+        {icon}
         <span>{label}</span>
       </span>
       <span className="font-medium">{value}</span>

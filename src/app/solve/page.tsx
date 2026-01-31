@@ -6,6 +6,7 @@ import { extractSearchTerms, findPatentsForProblem } from '@/lib/api/anthropic';
 import { searchPatents } from '@/lib/api/nasa';
 import { usePatentStore } from '@/lib/stores/patents';
 import { Patent, ProblemSolution, PatentMatch } from '@/types';
+import { LightbulbIcon, SatelliteIcon, WarningIcon, SparklesIcon, SearchIcon, ClockIcon } from '@/components/icons';
 
 const ALL_PROMPTS = [
   [
@@ -45,11 +46,11 @@ function MatchCard({ patent, match }: { patent: Patent; match: PatentMatch }) {
       </div>
       <p className="text-xs text-gray-400 line-clamp-2 mb-2">{match.explanation}</p>
       <div className="flex items-center gap-1.5 p-2 bg-yellow-900/10 rounded-lg text-xs">
-        <span className="text-yellow-400">💡</span>
+        <span className="text-yellow-400"><LightbulbIcon size={14} /></span>
         <span className="line-clamp-1 text-gray-300">{match.applicationIdea}</span>
       </div>
       <div className="flex justify-end mt-2">
-        <span className="text-xs text-gray-500">→</span>
+        <span className="text-xs text-gray-500">&rarr;</span>
       </div>
     </Link>
   );
@@ -137,8 +138,8 @@ export default function ProblemSolverPage() {
         <h1 className="text-xl font-bold">Problem Solver</h1>
         <div className="flex gap-2">
           {store.problemHistory.length > 0 && (
-            <button onClick={() => setShowHistory(!showHistory)} className="text-sm text-gray-400 hover:text-white px-3 py-1 bg-gray-800 rounded-lg">
-              🕐 History
+            <button onClick={() => setShowHistory(!showHistory)} className="text-sm text-gray-400 hover:text-white px-3 py-1 bg-gray-800 rounded-lg flex items-center gap-1.5">
+              <ClockIcon size={14} /> History
             </button>
           )}
           {(solution || error) && (
@@ -180,7 +181,7 @@ export default function ProblemSolverPage() {
         ) : !solution && !isSearching && !error ? (
           // Welcome
           <div className="text-center py-12">
-            <div className="text-5xl mb-4">💡</div>
+            <div className="mb-4 flex justify-center"><LightbulbIcon size={40} className="text-blue-400" /></div>
             <h2 className="text-xl font-bold mb-2">Find Patent Solutions</h2>
             <p className="text-gray-400 text-sm mb-8">Describe your challenge and AI will find patents that could help.</p>
             <div className="text-left space-y-2">
@@ -198,12 +199,12 @@ export default function ProblemSolverPage() {
           </div>
         ) : isSearching ? (
           <div className="flex flex-col items-center py-20">
-            <div className="animate-spin text-3xl mb-4">🛰️</div>
+            <div className="animate-spin mb-4"><SatelliteIcon size={28} /></div>
             <p className="text-gray-400">{searchPhase}</p>
           </div>
         ) : error ? (
           <div className="flex flex-col items-center py-20 text-center">
-            <div className="text-4xl mb-4">⚠️</div>
+            <div className="mb-4"><WarningIcon size={36} /></div>
             <p className="text-gray-400 text-sm">{error}</p>
             {error.includes('API key') && (
               <Link href="/settings" className="mt-2 text-blue-400 text-sm hover:underline">Add API Key in Settings</Link>
@@ -215,7 +216,7 @@ export default function ProblemSolverPage() {
             {/* Summary */}
             <div className="p-4 bg-blue-900/20 border border-blue-800/30 rounded-xl">
               <p className="text-sm font-semibold flex items-center gap-2 mb-2">
-                <span className="text-blue-400">✨</span> AI Analysis
+                <span className="text-blue-400"><SparklesIcon size={16} /></span> AI Analysis
               </p>
               <p className="text-sm text-gray-300">{solution.summary}</p>
             </div>
@@ -232,7 +233,7 @@ export default function ProblemSolverPage() {
               </>
             ) : (
               <div className="text-center py-8">
-                <div className="text-3xl mb-2">🔍</div>
+                <div className="mb-2 flex justify-center"><SearchIcon size={28} /></div>
                 <p className="text-sm text-gray-400">No matching patents found. Try rephrasing your problem.</p>
               </div>
             )}
@@ -241,7 +242,7 @@ export default function ProblemSolverPage() {
             {solution.additionalSuggestions && (
               <div className="p-4 bg-gray-800 rounded-xl">
                 <p className="text-sm font-semibold flex items-center gap-2 mb-1">
-                  <span className="text-yellow-400">💡</span> Tip
+                  <span className="text-yellow-400"><LightbulbIcon size={16} /></span> Tip
                 </p>
                 <p className="text-xs text-gray-400">{solution.additionalSuggestions}</p>
               </div>

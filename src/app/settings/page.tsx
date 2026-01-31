@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { usePatentStore } from '@/lib/stores/patents';
+import { KeyIcon, EyeIcon, EyeOffIcon, StarIcon } from '@/components/icons';
 
 export default function SettingsPage() {
   const store = usePatentStore();
@@ -30,7 +31,7 @@ export default function SettingsPage() {
       {/* API Key */}
       <section className="bg-gray-900 rounded-xl border border-gray-800 p-5">
         <h2 className="font-semibold mb-1 flex items-center gap-2">
-          {hasKey ? <span className="text-green-400">🔑</span> : <span className="text-blue-400">🔑</span>}
+          <span className={hasKey ? 'text-green-400' : 'text-blue-400'}><KeyIcon size={18} /></span>
           Claude API Key
         </h2>
         <p className="text-xs text-gray-500 mb-4">
@@ -44,7 +45,7 @@ export default function SettingsPage() {
                 {showKey ? store.apiKey : maskedKey}
               </code>
               <button onClick={() => setShowKey(!showKey)} className="px-3 py-2 bg-gray-800 rounded-lg text-sm hover:bg-gray-700">
-                {showKey ? '🙈' : '👁️'}
+                {showKey ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
               </button>
             </div>
             <button
@@ -88,7 +89,7 @@ export default function SettingsPage() {
             <p className="font-medium text-sm">Get Claude API Key</p>
             <p className="text-xs text-gray-400">Sign up at console.anthropic.com</p>
           </div>
-          <span className="text-gray-400">↗</span>
+          <span className="text-gray-400">&nearr;</span>
         </a>
       </section>
 
@@ -101,19 +102,19 @@ export default function SettingsPage() {
         </div>
         <a href="https://technology.nasa.gov/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between text-sm hover:text-blue-400">
           <span>NASA Technology Transfer</span>
-          <span className="text-gray-500">↗</span>
+          <span className="text-gray-500">&nearr;</span>
         </a>
         <a href="https://technology.nasa.gov/license" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between text-sm hover:text-blue-400">
           <span>Licensing Information</span>
-          <span className="text-gray-500">↗</span>
+          <span className="text-gray-500">&nearr;</span>
         </a>
       </section>
 
       {/* Startup NASA */}
       <section className="bg-yellow-900/10 rounded-xl border border-yellow-800/20 p-5">
-        <p className="font-semibold flex items-center gap-2 mb-2">⭐ Startup NASA Program</p>
+        <p className="font-semibold flex items-center gap-2 mb-2"><StarIcon size={16} className="text-yellow-400" /> Startup NASA Program</p>
         <p className="text-sm text-gray-400 mb-3">Startups can license NASA patents for FREE for up to 3 years. This is a great opportunity for early-stage companies.</p>
-        <a href="https://technology.nasa.gov/license" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:underline">Learn More →</a>
+        <a href="https://technology.nasa.gov/license" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:underline">Learn More &rarr;</a>
       </section>
 
       {/* Clear Data */}

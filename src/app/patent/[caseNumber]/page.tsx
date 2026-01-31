@@ -8,6 +8,7 @@ import { analyzePatent } from '@/lib/api/anthropic';
 import { usePatentStore } from '@/lib/stores/patents';
 import { Patent, BusinessAnalysis } from '@/types';
 import { BusinessAnalysisModal } from '@/components/business-analysis/modal';
+import { SatelliteIcon, WarningIcon, BookmarkIcon, CheckIcon, LightbulbIcon, SparklesIcon, HourglassIcon, StarIcon, MicroscopeIcon, BuildingIcon, DocumentIcon, GlobeIcon } from '@/components/icons';
 
 function YouTubeThumbnail({ url }: { url: string }) {
   const videoId = url.match(/[?&]v=([^&]+)/)?.[1] ?? '';
@@ -89,7 +90,7 @@ export default function PatentDetailPage() {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-32">
-        <div className="animate-spin text-3xl mb-4">✈️</div>
+        <div className="animate-spin mb-4"><SatelliteIcon size={28} /></div>
         <p className="text-gray-400">Loading details...</p>
       </div>
     );
@@ -98,7 +99,7 @@ export default function PatentDetailPage() {
   if (!detail) {
     return (
       <div className="flex flex-col items-center py-32">
-        <div className="text-4xl mb-4">⚠️</div>
+        <div className="mb-4"><WarningIcon size={36} /></div>
         <p className="text-gray-400">Patent not found</p>
       </div>
     );
@@ -134,7 +135,7 @@ export default function PatentDetailPage() {
 
         {images.length === 0 && videos.length === 0 && (
           <div className="aspect-[21/9] bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-xl flex items-center justify-center mb-6">
-            <span className="text-6xl opacity-40">🛰️</span>
+            <span className="opacity-40"><SatelliteIcon size={56} /></span>
           </div>
         )}
 
@@ -146,11 +147,11 @@ export default function PatentDetailPage() {
           {/* Bookmark */}
           <button
             onClick={toggleSave}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               isSaved ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
             }`}
           >
-            {isSaved ? '🔖 Saved' : '🔖 Save Patent'}
+            <BookmarkIcon size={16} /> {isSaved ? 'Saved' : 'Save Patent'}
           </button>
         </div>
 
@@ -184,12 +185,12 @@ export default function PatentDetailPage() {
         {detail.benefits.length > 0 && (
           <div className="mb-6">
             <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <span className="text-green-400">✓</span> Benefits
+              <span className="text-green-400"><CheckIcon size={18} /></span> Benefits
             </h2>
             <ul className="space-y-2">
               {detail.benefits.map((b, i) => (
                 <li key={i} className="flex items-start gap-2 text-gray-300">
-                  <span className="text-green-400 mt-0.5 text-sm">✓</span>
+                  <span className="text-green-400 mt-0.5"><CheckIcon size={14} /></span>
                   <span>{b}</span>
                 </li>
               ))}
@@ -201,12 +202,12 @@ export default function PatentDetailPage() {
         {detail.applications.length > 0 && (
           <div className="mb-6">
             <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <span className="text-orange-400">💡</span> Applications
+              <span className="text-orange-400"><LightbulbIcon size={18} /></span> Applications
             </h2>
             <ul className="space-y-2">
               {detail.applications.map((a, i) => (
                 <li key={i} className="flex items-start gap-2 text-gray-300">
-                  <span className="text-orange-400 mt-0.5 text-sm">→</span>
+                  <span className="text-orange-400 mt-0.5 text-sm">&rarr;</span>
                   <span>{a}</span>
                 </li>
               ))}
@@ -232,12 +233,12 @@ export default function PatentDetailPage() {
           >
             {isAnalyzing ? (
               <>
-                <span className="animate-spin">⏳</span>
+                <span className="animate-spin"><HourglassIcon size={16} /></span>
                 Analyzing...
               </>
             ) : (
               <>
-                <span>✨</span>
+                <SparklesIcon size={16} />
                 Analyze with AI
               </>
             )}
@@ -252,17 +253,17 @@ export default function PatentDetailPage() {
             <div className="p-4 bg-blue-900/10 border border-blue-800/30 rounded-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium flex items-center gap-2">⭐ Startup NASA <span className="text-xs bg-green-900/40 text-green-400 px-2 py-0.5 rounded-full">FREE</span></p>
+                  <p className="font-medium flex items-center gap-2"><StarIcon size={16} className="text-yellow-400" /> Startup NASA <span className="text-xs bg-green-900/40 text-green-400 px-2 py-0.5 rounded-full">FREE</span></p>
                   <p className="text-sm text-gray-400">Free for startups - up to 3 years</p>
                 </div>
               </div>
             </div>
             <div className="p-4 bg-gray-900 rounded-lg border border-gray-800">
-              <p className="font-medium">🔬 Research License</p>
+              <p className="font-medium flex items-center gap-2"><MicroscopeIcon size={16} /> Research License</p>
               <p className="text-sm text-gray-400">12-month development & testing</p>
             </div>
             <div className="p-4 bg-gray-900 rounded-lg border border-gray-800">
-              <p className="font-medium">🏢 Commercial License</p>
+              <p className="font-medium flex items-center gap-2"><BuildingIcon size={16} /> Commercial License</p>
               <p className="text-sm text-gray-400">Full manufacturing rights</p>
             </div>
           </div>
@@ -272,7 +273,7 @@ export default function PatentDetailPage() {
             rel="noopener noreferrer"
             className="mt-3 block text-center py-3 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-colors"
           >
-            Start Licensing Application ↗
+            Start Licensing Application &nearr;
           </a>
         </div>
 
@@ -286,8 +287,8 @@ export default function PatentDetailPage() {
               rel="noopener noreferrer"
               className="flex items-center justify-between p-3 bg-gray-900 rounded-lg border border-gray-800 hover:border-gray-600 transition-colors text-sm text-blue-400"
             >
-              <span>📄 View Full Patent (USPTO)</span>
-              <span>↗</span>
+              <span className="flex items-center gap-2"><DocumentIcon size={16} /> View Full Patent (USPTO)</span>
+              <span>&nearr;</span>
             </a>
           )}
           <a
@@ -296,8 +297,8 @@ export default function PatentDetailPage() {
             rel="noopener noreferrer"
             className="flex items-center justify-between p-3 bg-gray-900 rounded-lg border border-gray-800 hover:border-gray-600 transition-colors text-sm text-blue-400"
           >
-            <span>🌐 View on NASA T2 Portal</span>
-            <span>↗</span>
+            <span className="flex items-center gap-2"><GlobeIcon size={16} /> View on NASA T2 Portal</span>
+            <span>&nearr;</span>
           </a>
         </div>
       </div>

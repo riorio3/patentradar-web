@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePatentStore } from '@/lib/stores/patents';
+import { BookmarkIcon, SatelliteIcon } from '@/components/icons';
 
 export default function SavedPage() {
   const { savedPatents, removePatent } = usePatentStore();
@@ -12,7 +13,7 @@ export default function SavedPage() {
 
       {savedPatents.length === 0 ? (
         <div className="text-center py-20">
-          <div className="text-5xl mb-4">🔖</div>
+          <div className="mb-4 flex justify-center"><BookmarkIcon size={40} className="text-gray-500" /></div>
           <h2 className="text-lg font-semibold mb-2">No Saved Patents</h2>
           <p className="text-gray-400 text-sm mb-4">Patents you bookmark will appear here.</p>
           <Link href="/" className="text-blue-400 hover:underline text-sm">Browse Patents</Link>
@@ -28,7 +29,7 @@ export default function SavedPage() {
                   </div>
                 ) : (
                   <div className="aspect-[16/10] bg-gradient-to-br from-blue-900/40 to-purple-900/40 flex items-center justify-center">
-                    <span className="text-4xl opacity-60">🛰️</span>
+                    <span className="opacity-60"><SatelliteIcon size={36} /></span>
                   </div>
                 )}
                 <div className="p-3">

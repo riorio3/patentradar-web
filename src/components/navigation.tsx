@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { SearchIcon, LightbulbIcon, BookmarkIcon, GearIcon } from '@/components/icons';
 
 const NAV_ITEMS = [
-  { href: '/', label: 'Discover', icon: '🔍' },
-  { href: '/solve', label: 'Problem Solver', icon: '💡' },
-  { href: '/saved', label: 'Saved', icon: '🔖' },
-  { href: '/settings', label: 'Settings', icon: '⚙️' },
+  { href: '/', label: 'Discover', icon: <SearchIcon size={18} /> },
+  { href: '/solve', label: 'Problem Solver', icon: <LightbulbIcon size={18} /> },
+  { href: '/saved', label: 'Saved', icon: <BookmarkIcon size={18} /> },
+  { href: '/settings', label: 'Settings', icon: <GearIcon size={18} /> },
 ];
 
 export function Navigation() {
@@ -19,7 +20,7 @@ export function Navigation() {
       <nav className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 flex-col bg-gray-900 border-r border-gray-800">
         {/* Collapsed sidebar (md) */}
         <div className="lg:hidden flex flex-col items-center w-16 py-6 gap-2">
-          <div className="text-xl mb-4">🛰️</div>
+          <div className="text-sm font-bold mb-4 text-blue-400">PR</div>
           {NAV_ITEMS.map((item) => {
             const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
             return (
@@ -31,7 +32,7 @@ export function Navigation() {
                 }`}
                 title={item.label}
               >
-                <span className="text-lg">{item.icon}</span>
+                {item.icon}
               </Link>
             );
           })}
@@ -39,7 +40,7 @@ export function Navigation() {
         {/* Expanded sidebar (lg) */}
         <div className="hidden lg:flex flex-col w-56 py-6 px-3 gap-1">
           <Link href="/" className="flex items-center gap-2 px-3 mb-6">
-            <span className="text-2xl">🛰️</span>
+            <span className="text-sm font-bold text-blue-400">PR</span>
             <span className="font-bold text-lg">PatentRadar</span>
           </Link>
           {NAV_ITEMS.map((item) => {
@@ -52,7 +53,7 @@ export function Navigation() {
                   active ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'
                 }`}
               >
-                <span>{item.icon}</span>
+                {item.icon}
                 <span>{item.label}</span>
               </Link>
             );
@@ -73,7 +74,7 @@ export function Navigation() {
                   active ? 'text-blue-400' : 'text-gray-500'
                 }`}
               >
-                <span className="text-lg">{item.icon}</span>
+                {item.icon}
                 <span>{item.label}</span>
               </Link>
             );
