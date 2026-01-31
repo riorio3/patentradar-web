@@ -98,7 +98,7 @@ export interface CategoryConfig {
   key: string;
   displayName: string;
   shortName: string;
-  icon: string;
+  icon: React.ReactNode;
   color: string;
   apiSlug: string | null;
 }
