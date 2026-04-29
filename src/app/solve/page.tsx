@@ -59,6 +59,7 @@ function MatchCard({ patent, match }: { patent: Patent; match: PatentMatch }) {
 export default function ProblemSolverPage() {
   const store = usePatentStore();
   const [input, setInput] = useState('');
+  const [submittedProblem, setSubmittedProblem] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [searchPhase, setSearchPhase] = useState('');
   const [solution, setSolution] = useState<ProblemSolution | null>(null);
@@ -75,7 +76,8 @@ export default function ProblemSolverPage() {
   const examplePrompts = ALL_PROMPTS[promptIndex] ?? ALL_PROMPTS[0];
 
   const handleSearch = async () => {
-    if (!input.trim() || isSearching) return;
+    const problem = input.trim();
+    if (!problem || isSearching) return;
     if (!store.apiKey) {
       setError('Please add your Claude API key in Settings');
       return;
@@ -85,10 +87,12 @@ export default function ProblemSolverPage() {
     setError(null);
     setSolution(null);
     setMatchedPatents([]);
+    setSubmittedProblem(problem);
+    setInput('');
 
     try {
       setSearchPhase('Analyzing problem...');
-      const keywords = await extractSearchTerms(input, store.apiKey);
+      const keywords = await extractSearchTerms(problem, store.apiKey);
 
       setSearchPhase('Searching patents...');
       const results = await Promise.all(
@@ -104,7 +108,7 @@ export default function ProblemSolverPage() {
 
       if (uniquePatents.length === 0) {
         setSolution({
-          problem: input,
+          problem,
           summary: 'No patents found. Try different keywords.',
           matches: [],
           additionalSuggestions: 'Break down your problem into specific technical terms.',
@@ -114,10 +118,9 @@ export default function ProblemSolverPage() {
       }
 
       setSearchPhase('Finding solutions...');
-      const result = await findPatentsForProblem(input, uniquePatents, store.apiKey);
+      const result = await findPatentsForProblem(problem, uniquePatents, store.apiKey);
       setSolution(result);
-      store.addProblemEntry({ problem: input, solution: result, matchedPatents: uniquePatents });
-      setInput('');
+      store.addProblemEntry({ problem, solution: result, matchedPatents: uniquePatents });
     } catch (e) {
       setError(String(e instanceof Error ? e.message : e));
     }
@@ -126,6 +129,7 @@ export default function ProblemSolverPage() {
 
   const reset = () => {
     setInput('');
+    setSubmittedProblem('');
     setSolution(null);
     setMatchedPatents([]);
     setError(null);
@@ -152,6 +156,13 @@ export default function ProblemSolverPage() {
 
       {/* Content area */}
       <div className="flex-1 overflow-y-auto mb-4">
+        {!showHistory && submittedProblem && (
+          <div className="flex justify-end mb-5">
+            <div className="max-w-[85%] bg-blue-600 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm whitespace-pre-wrap break-words">
+              {submittedProblem}
+            </div>
+          </div>
+        )}
         {showHistory ? (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -162,7 +173,8 @@ export default function ProblemSolverPage() {
               <button
                 key={entry.id}
                 onClick={() => {
-                  setInput(entry.problem);
+                  setInput('');
+                  setSubmittedProblem(entry.problem);
                   setSolution(entry.solution);
                   setMatchedPatents(entry.matchedPatents);
                   setShowHistory(false);
