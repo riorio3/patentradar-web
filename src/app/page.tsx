@@ -1,17 +1,21 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { Suspense, useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 import { browsePatents, searchPatents } from '@/lib/api/nasa';
 import { CATEGORIES } from '@/lib/utils/categories';
 import { Patent, CategoryConfig } from '@/types';
 import Link from 'next/link';
 import { SatelliteIcon, SparklesIcon, WarningIcon, SearchIcon, GridIcon } from '@/components/icons';
 
-function PatentCard({ patent }: { patent: Patent }) {
+function PatentCard({ patent, fromCategory }: { patent: Patent; fromCategory?: string }) {
+  const href = fromCategory
+    ? `/patent/${patent.caseNumber}?from=${encodeURIComponent(fromCategory)}`
+    : `/patent/${patent.caseNumber}`;
   return (
     <Link
-      href={`/patent/${patent.caseNumber}`}
+      href={href}
       className="group block bg-gray-900 rounded-xl overflow-hidden border border-gray-800 hover:border-gray-600 transition-colors"
     >
       {patent.imageURL ? (
@@ -88,11 +92,16 @@ function CategoryPills({
   );
 }
 
-export default function DiscoveryPage() {
+function DiscoveryPageInner() {
+  const searchParams = useSearchParams();
+  const initialCategoryKey = searchParams.get('category');
+  const initialCategory =
+    CATEGORIES.find((c) => c.key === initialCategoryKey) ?? CATEGORIES[0];
+
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSearch, setActiveSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<CategoryConfig>(CATEGORIES[0]);
-  const [hasSearched, setHasSearched] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryConfig>(initialCategory);
+  const [hasSearched, setHasSearched] = useState(!!initialCategoryKey);
 
   const browseQuery = useQuery({
     queryKey: ['browse', selectedCategory.key],
@@ -218,10 +227,22 @@ export default function DiscoveryPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {patents?.map((patent) => (
-            <PatentCard key={patent.id} patent={patent} />
+            <PatentCard
+              key={patent.id}
+              patent={patent}
+              fromCategory={!activeSearch ? selectedCategory.key : undefined}
+            />
           ))}
         </div>
       )}
     </div>
+  );
+}
+
+export default function DiscoveryPage() {
+  return (
+    <Suspense fallback={null}>
+      <DiscoveryPageInner />
+    </Suspense>
   );
 }

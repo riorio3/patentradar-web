@@ -1,6 +1,7 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getPatentDetail } from '@/lib/api/nasa';
@@ -33,13 +34,19 @@ function YouTubeThumbnail({ url }: { url: string }) {
   );
 }
 
-export default function PatentDetailPage() {
+function PatentDetailPageInner() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const fromCategory = searchParams.get('from');
   const caseNumber = decodeURIComponent(params.caseNumber as string);
   const store = usePatentStore();
 
   const handleBack = () => {
+    if (fromCategory) {
+      router.push(`/?category=${encodeURIComponent(fromCategory)}`);
+      return;
+    }
     if (typeof window !== 'undefined' && window.history.length > 1) {
       router.back();
     } else {
@@ -342,5 +349,13 @@ export default function PatentDetailPage() {
         />
       )}
     </>
+  );
+}
+
+export default function PatentDetailPage() {
+  return (
+    <Suspense fallback={null}>
+      <PatentDetailPageInner />
+    </Suspense>
   );
 }
