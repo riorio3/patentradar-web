@@ -89,7 +89,7 @@ export default function SettingsPage() {
             <p className="font-medium text-sm">Get Claude API Key</p>
             <p className="text-xs text-gray-400">Sign up at console.anthropic.com</p>
           </div>
-          <span className="text-gray-400">&nearr;</span>
+          <span className="text-gray-400">↗</span>
         </a>
       </section>
 
@@ -102,11 +102,11 @@ export default function SettingsPage() {
         </div>
         <a href="https://technology.nasa.gov/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between text-sm hover:text-blue-400">
           <span>NASA Technology Transfer</span>
-          <span className="text-gray-500">&nearr;</span>
+          <span className="text-gray-500">↗</span>
         </a>
         <a href="https://technology.nasa.gov/license" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between text-sm hover:text-blue-400">
           <span>Licensing Information</span>
-          <span className="text-gray-500">&nearr;</span>
+          <span className="text-gray-500">↗</span>
         </a>
       </section>
 

@@ -273,7 +273,7 @@ export default function PatentDetailPage() {
             rel="noopener noreferrer"
             className="mt-3 block text-center py-3 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-colors"
           >
-            Start Licensing Application &nearr;
+            Start Licensing Application ↗
           </a>
         </div>
 
@@ -288,7 +288,7 @@ export default function PatentDetailPage() {
               className="flex items-center justify-between p-3 bg-gray-900 rounded-lg border border-gray-800 hover:border-gray-600 transition-colors text-sm text-blue-400"
             >
               <span className="flex items-center gap-2"><DocumentIcon size={16} /> View Full Patent (USPTO)</span>
-              <span>&nearr;</span>
+              <span>↗</span>
             </a>
           )}
           <a
@@ -298,7 +298,7 @@ export default function PatentDetailPage() {
             className="flex items-center justify-between p-3 bg-gray-900 rounded-lg border border-gray-800 hover:border-gray-600 transition-colors text-sm text-blue-400"
           >
             <span className="flex items-center gap-2"><GlobeIcon size={16} /> View on NASA T2 Portal</span>
-            <span>&nearr;</span>
+            <span>↗</span>
           </a>
         </div>
       </div>
