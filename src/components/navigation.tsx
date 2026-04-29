@@ -20,7 +20,7 @@ export function Navigation() {
       <nav className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 flex-col bg-gray-900 border-r border-gray-800">
         {/* Collapsed sidebar (md) */}
         <div className="lg:hidden flex flex-col items-center w-16 py-6 gap-2">
-          <div className="text-sm font-bold mb-4 text-blue-400">PR</div>
+          <img src="/brand-mark.png" alt="PatentRadar" className="w-8 h-8 mb-4" />
           {NAV_ITEMS.map((item) => {
             const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
             return (
@@ -40,7 +40,7 @@ export function Navigation() {
         {/* Expanded sidebar (lg) */}
         <div className="hidden lg:flex flex-col w-56 py-6 px-3 gap-1">
           <Link href="/" className="flex items-center gap-2 px-3 mb-6">
-            <span className="text-sm font-bold text-blue-400">PR</span>
+            <img src="/brand-mark.png" alt="" className="w-7 h-7" />
             <span className="font-bold text-lg">PatentRadar</span>
           </Link>
           {NAV_ITEMS.map((item) => {
