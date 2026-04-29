@@ -107,9 +107,9 @@ function DiscoveryPageInner() {
     queryKey: ['browse', selectedCategory.key],
     queryFn: () => {
       if (selectedCategory.apiSlug === null) {
-        // "All" - fetch a few categories in parallel
+        // "All" - fetch every category in parallel and dedupe.
         return Promise.all(
-          CATEGORIES.filter(c => c.apiSlug).slice(0, 5).map(c => browsePatents(c.apiSlug!))
+          CATEGORIES.filter(c => c.apiSlug).map(c => browsePatents(c.apiSlug!))
         ).then(results => {
           const seen = new Set<string>();
           return results.flat().filter(p => { if (seen.has(p.id)) return false; seen.add(p.id); return true; })
