@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getPatentDetail } from '@/lib/api/nasa';
@@ -35,8 +35,17 @@ function YouTubeThumbnail({ url }: { url: string }) {
 
 export default function PatentDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const caseNumber = decodeURIComponent(params.caseNumber as string);
   const store = usePatentStore();
+
+  const handleBack = () => {
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/');
+    }
+  };
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
@@ -111,6 +120,16 @@ export default function PatentDetailPage() {
   return (
     <>
       <div className="max-w-4xl mx-auto px-4 py-6">
+        {/* Back */}
+        <button
+          onClick={handleBack}
+          className="mb-4 inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+          aria-label="Go back"
+        >
+          <span aria-hidden="true" className="text-base leading-none">‹</span>
+          <span>Back</span>
+        </button>
+
         {/* Media Gallery */}
         {(images.length > 0 || videos.length > 0) && (
           <div className="mb-6">
