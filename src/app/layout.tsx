@@ -1,24 +1,53 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 import { Navigation } from '@/components/navigation';
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
-const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
+const inter = Inter({ variable: '--font-inter', subsets: ['latin'] });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#0a0f1a',
+};
 
 export const metadata: Metadata = {
-  title: 'PatentRadar - Discover NASA Patents',
-  description: 'Browse, search, and analyze 600+ NASA patents available for licensing',
+  title: {
+    default: 'PatentRadar - Discover NASA Patents',
+    template: '%s | PatentRadar',
+  },
+  description: 'Browse, search, and analyze 600+ NASA patents available for licensing. AI-powered business analysis for technology commercialization.',
+  keywords: ['NASA patents', 'technology transfer', 'patent licensing', 'NASA technology', 'business analysis'],
+  openGraph: {
+    title: 'PatentRadar - Discover NASA Patents',
+    description: 'Browse, search, and analyze 600+ NASA patents available for licensing.',
+    type: 'website',
+    siteName: 'PatentRadar',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PatentRadar - Discover NASA Patents',
+    description: 'Browse, search, and analyze 600+ NASA patents available for licensing.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-950 text-gray-100 min-h-screen`}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="dns-prefetch" href="https://technology.nasa.gov" />
+        <link rel="preconnect" href="https://technology.nasa.gov" crossOrigin="anonymous" />
+      </head>
+      <body className={`${inter.variable} font-sans antialiased bg-[var(--background)] text-[var(--foreground)] min-h-screen`}>
         <Providers>
           <Navigation />
-          <main className="pb-20 md:pb-0 md:pl-16 lg:pl-56">
+          <main className="pb-20 md:pb-0 md:pl-16 lg:pl-60">
             {children}
           </main>
         </Providers>

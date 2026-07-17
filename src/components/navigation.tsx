@@ -17,18 +17,22 @@ export function Navigation() {
   return (
     <>
       {/* Desktop sidebar */}
-      <nav className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 flex-col bg-gray-900 border-r border-gray-800">
+      <nav className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 flex-col border-r border-[var(--border)] bg-[var(--surface)]">
         {/* Collapsed sidebar (md) */}
-        <div className="lg:hidden flex flex-col items-center w-16 py-6 gap-2">
-          <img src="/brand-mark.png" alt="PatentRadar" className="w-8 h-8 mb-4" />
+        <div className="lg:hidden flex flex-col items-center w-16 py-6 gap-1">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6">
+            <span className="text-white font-bold text-sm">PR</span>
+          </div>
           {NAV_ITEMS.map((item) => {
             const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center justify-center w-10 h-10 rounded-lg transition-colors ${
-                  active ? 'bg-blue-600' : 'hover:bg-gray-800'
+                className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ${
+                  active
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
+                    : 'text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-hover)]'
                 }`}
                 title={item.label}
               >
@@ -38,19 +42,24 @@ export function Navigation() {
           })}
         </div>
         {/* Expanded sidebar (lg) */}
-        <div className="hidden lg:flex flex-col w-56 py-6 px-3 gap-1">
-          <Link href="/" className="flex items-center gap-2 px-3 mb-6">
-            <img src="/brand-mark.png" alt="" className="w-7 h-7" />
-            <span className="font-bold text-lg">PatentRadar</span>
+        <div className="hidden lg:flex flex-col w-60 py-6 px-3 gap-0.5">
+          <Link href="/" className="flex items-center gap-2.5 px-3 mb-8">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+              <span className="text-white font-bold text-xs">PR</span>
+            </div>
+            <span className="font-semibold text-lg tracking-tight">PatentRadar</span>
           </Link>
+          <p className="text-[10px] uppercase tracking-widest text-[var(--muted)] px-3 mb-2 font-medium">Menu</p>
           {NAV_ITEMS.map((item) => {
             const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  active ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  active
+                    ? 'bg-blue-600/10 text-blue-400 border border-blue-500/20'
+                    : 'text-[var(--muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--foreground)] border border-transparent'
                 }`}
               >
                 {item.icon}
@@ -62,7 +71,7 @@ export function Navigation() {
       </nav>
 
       {/* Mobile bottom tab bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur border-t border-gray-800 safe-area-bottom">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 glass border-t border-[var(--border)] safe-area-bottom">
         <div className="flex justify-around py-2">
           {NAV_ITEMS.map((item) => {
             const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
@@ -70,8 +79,8 @@ export function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-col items-center gap-0.5 px-3 py-1 text-xs ${
-                  active ? 'text-blue-400' : 'text-gray-500'
+                className={`flex flex-col items-center gap-0.5 px-3 py-1 text-xs transition-colors ${
+                  active ? 'text-blue-400' : 'text-[var(--muted)]'
                 }`}
               >
                 {item.icon}

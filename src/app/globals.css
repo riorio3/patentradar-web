@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #030712;
-  --foreground: #f9fafb;
+  --background: #0a0f1a;
+  --foreground: #e8edf5;
+  --surface: #111827;
+  --surface-hover: #1a2236;
+  --border: #1e293b;
+  --border-hover: #334155;
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --muted: #64748b;
 }
 
 @theme inline {
@@ -17,16 +24,66 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #374151;
-  border-radius: 3px;
+  background: #1e293b;
+  border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+  background: #334155;
+}
+
+/* Hide scrollbar for category pills */
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Skeleton pulse */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #263348 50%, #1e293b 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* Subtle card glow on hover */
+.card-glow {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+}
+.card-glow:hover {
+  box-shadow: 0 4px 24px -4px rgba(59, 130, 246, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Glass surface */
+.glass {
+  background: rgba(17, 24, 39, 0.92);
+}
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .glass {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Safe area for devices with home indicator */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+  .card-glow { transition: none; }
+  .card-glow:hover { transform: none; }
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }

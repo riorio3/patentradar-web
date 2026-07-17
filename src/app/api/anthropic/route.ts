@@ -4,8 +4,12 @@ export async function POST(req: NextRequest) {
   try {
     const { prompt, apiKey } = await req.json();
 
-    if (!apiKey) {
-      return NextResponse.json({ error: 'Please add your Claude API key in Settings' }, { status: 400 });
+    if (!apiKey || typeof apiKey !== 'string' || !apiKey.startsWith('sk-ant-')) {
+      return NextResponse.json({ error: 'Please add a valid Claude API key in Settings' }, { status: 400 });
+    }
+
+    if (!prompt || typeof prompt !== 'string' || prompt.length > 50000) {
+      return NextResponse.json({ error: 'Invalid prompt' }, { status: 400 });
     }
 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -32,6 +36,7 @@ export async function POST(req: NextRequest) {
     const text = data.content?.[0]?.text ?? '';
     return NextResponse.json({ text });
   } catch (e) {
-    return NextResponse.json({ error: String(e) }, { status: 500 });
+    console.error('Anthropic API error:', e);
+    return NextResponse.json({ error: 'An internal error occurred' }, { status: 500 });
   }
 }

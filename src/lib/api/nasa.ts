@@ -47,6 +47,18 @@ export async function browsePatents(categorySlug: string): Promise<Patent[]> {
   return data.map(elasticToPatent).filter((p): p is Patent => p !== null);
 }
 
+export async function browseAllPatents(slugs: string[]): Promise<Patent[]> {
+  const res = await fetch(`${BASE_URL}?action=browse&slug=${encodeURIComponent(slugs.join(','))}`);
+  if (!res.ok) throw new Error('Failed to fetch patents');
+  const data: ElasticSearchResult[] = await res.json();
+  const seen = new Set<string>();
+  return data
+    .map(elasticToPatent)
+    .filter((p): p is Patent => p !== null)
+    .filter(p => { if (seen.has(p.id)) return false; seen.add(p.id); return true; })
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
 export async function searchPatents(query: string, page = 1): Promise<Patent[]> {
   const res = await fetch(`${BASE_URL}?action=search&query=${encodeURIComponent(query)}&page=${page}`);
   if (!res.ok) throw new Error('Failed to search patents');

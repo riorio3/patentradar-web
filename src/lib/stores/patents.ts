@@ -32,13 +32,13 @@ export const usePatentStore = create<PatentStore>()(
     (set, get) => ({
       savedPatents: [],
       savePatent: (patent) => set((s) => {
-        if (s.savedPatents.some(p => p.id === patent.id)) return s;
+        if (s.savedPatents.some(p => p.caseNumber === patent.caseNumber)) return s;
         return { savedPatents: [patent, ...s.savedPatents] };
       }),
       removePatent: (patent) => set((s) => ({
-        savedPatents: s.savedPatents.filter(p => p.id !== patent.id),
+        savedPatents: s.savedPatents.filter(p => p.caseNumber !== patent.caseNumber),
       })),
-      isSaved: (patent) => get().savedPatents.some(p => p.id === patent.id),
+      isSaved: (patent) => get().savedPatents.some(p => p.caseNumber === patent.caseNumber),
 
       apiKey: '',
       setApiKey: (key) => set({ apiKey: key }),
@@ -74,6 +74,12 @@ export const usePatentStore = create<PatentStore>()(
         analysisHistory: [],
       }),
     }),
-    { name: 'patent-radar-store' }
+    {
+      name: 'patent-radar-store',
+      partialize: (state) => {
+        const { apiKey, ...rest } = state;
+        return rest;
+      },
+    }
   )
 );
